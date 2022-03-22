@@ -34,7 +34,17 @@ public class ListingProduit extends AppCompatActivity {
         String line;
         URL url;
 
-        try {
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        List<Item> items = new ArrayList<Item>();
+        items.add(new Item("Chaussure",R.drawable.chaussure,3));
+        items.add(new Item("Pentalon", R.drawable.chaussure, 2));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items));
+
+
+
+       /* try {
             url = new URL("http://192.168.43.2/all4sport/API/produitStocke.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -43,7 +53,7 @@ public class ListingProduit extends AppCompatActivity {
 
             JSONArray array = new JSONArray(jsonObject.getString("stock"));
 
-            for (int i = 0; i < array.length(); i++) {
+            /*for (int i = 0; i < array.length(); i++) {
                 // On récupère un objet JSON du tableau
                 JSONObject obj = new JSONObject(array.getString(i));
                 // On fait le lien Personne - Objet JSON
@@ -52,20 +62,21 @@ public class ListingProduit extends AppCompatActivity {
                 item.setQuantite(obj.getInt("quantite"));
                 item.setPhoto(obj.getInt("photo"));
                 RecyclerView recyclerView = findViewById(R.id.recyclerview);
-
                 List<Item> items = new ArrayList<Item>();
                 items.add(new Item("Chaussure",R.drawable.chaussure,3));
-
+                // <uses-permission
+                //android:name="android.permission.ACCESS_FINE_LOCATION"
+                //tools:ignore="CoarseFineLocation" />
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items));
-            }
+             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        } */
 
 
     }
