@@ -2,9 +2,8 @@ package com.example.geolocalisation;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.google.android.gms.common.api.Response;
-
 import java.io.IOException;
+import okhttp3.*;
 
 
 public abstract class APIConnection {
@@ -19,7 +18,7 @@ public abstract class APIConnection {
 
             Response response = client.newCall(request).execute();
 
-            response.body().string();
+            return response.body().string();
         } catch (Exception e) {
             Log.e("Connection error: ", e.toString());
             return ("Error");

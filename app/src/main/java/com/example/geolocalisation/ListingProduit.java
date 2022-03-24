@@ -33,22 +33,17 @@ public class ListingProduit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String product = null;
+        String products = null;
 
-        Bundle bundle = getIntent().getExtras();
-        String str = bundle.getString("value");
 
 
         try {
-            String token = null;
-            String url = "http://192.168.225.198:3000/produits/get/" + str;
-            token = APIConnection.get(url);
-            Toast toast = Toast.makeText(ListingProduit.this, token, Toast.LENGTH_LONG);
+            String url = "http://192.168.225.198:3000/produits/";
+            products = APIConnection.get(url);
+            Toast toast = Toast.makeText(ListingProduit.this, products, Toast.LENGTH_LONG);
             toast.show();
             setContentView(R.layout.activity_listing_produit);
-            TextView tv = (TextView) findViewById(R.id.nom);
-            tv.setText(token);
-            Log.e("aaaaaaa", token);
+            Log.e("aaaaaaa", products);
         } catch (IOException e) {
             Log.e("OEEEEEEEEEE C'EST LA D", e.toString());
         }
