@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".ConnexionAct"
+            android:exported="false" />
+        <activity
             android:name=".ListingProduit"
             android:exported="true">
             <intent-filter>

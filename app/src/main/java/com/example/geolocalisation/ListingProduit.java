@@ -3,6 +3,10 @@ package com.example.geolocalisation;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import android.os.Bundle;
 
@@ -29,7 +33,25 @@ public class ListingProduit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listing_produit);
+        String product = null;
+
+        Bundle bundle = getIntent().getExtras();
+        String str = bundle.getString("value");
+
+
+        try {
+            String token = null;
+            String url = "http://192.168.225.198:3000/produits/get/" + str;
+            token = APIConnection.get(url);
+            Toast toast = Toast.makeText(ListingProduit.this, token, Toast.LENGTH_LONG);
+            toast.show();
+            setContentView(R.layout.activity_listing_produit);
+            TextView tv = (TextView) findViewById(R.id.nom);
+            tv.setText(token);
+            Log.e("aaaaaaa", token);
+        } catch (IOException e) {
+            Log.e("OEEEEEEEEEE C'EST LA D", e.toString());
+        }
 
         //String line;
         //URL url;
