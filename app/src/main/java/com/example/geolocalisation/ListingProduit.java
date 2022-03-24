@@ -22,22 +22,22 @@ import java.util.List;
 
 public class ListingProduit extends AppCompatActivity {
 
-    private String nom;
-    private int quantite;
-    private int photo;
+    //private String nom;
+    //private int quantite;
+    //private int photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listing_produit);
 
-        String line;
-        URL url;
+        //String line;
+        //URL url;
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        List<Item> items = new ArrayList<Item>();
-        items.add(new Item("Chaussure",R.drawable.chaussure,3));
-        items.add(new Item("Pentalon", R.drawable.chaussure, 2));
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("Chaussure",R.drawable.chaussure,"3"));
+        items.add(new Item("Pentalon", R.drawable.chaussure, "2"));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items));

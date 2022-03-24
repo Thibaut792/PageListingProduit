@@ -27,8 +27,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHorder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHorder holder, int position) {
-        holder.nameView.setText(items.get(position).getNom());
-        holder.quantiteView.setText((items.get(position).getQuantite()));
+        String name = items.get(position).getNom();
+        holder.nameView.setText(name);
+        String quant = items.get(position).getQuantite();
+        holder.quantiteView.setText(quant);
         holder.imageView.setImageResource(items.get(position).getPhoto());
     }
 

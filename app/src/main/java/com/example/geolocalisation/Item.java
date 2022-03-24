@@ -3,9 +3,9 @@ package com.example.geolocalisation;
 public class Item {
     String nom;
     int photo;
-    int quantite;
+    String quantite;
 
-    public Item(String nom, int photo, int quantite) {
+    public Item(String nom, int photo, String quantite) {
         this.nom = nom;
         this.photo = photo;
         this.quantite = quantite;
@@ -27,11 +27,11 @@ public class Item {
         this.photo = photo;
     }
 
-    public int getQuantite() {
+    public String getQuantite() {
         return quantite;
     }
 
-    public void setQuantite(int quantite) {
+    public void setQuantite(String quantite) {
         this.quantite = quantite;
     }
 }

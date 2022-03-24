@@ -14,8 +14,8 @@ public class MyViewHorder extends RecyclerView.ViewHolder {
 
     public MyViewHorder(@NonNull View itemView) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.imageView);
         nameView = itemView.findViewById(R.id.nom);
+        imageView = itemView.findViewById(R.id.imageView);
         quantiteView = itemView.findViewById(R.id.quantite);
 
     }
