@@ -1,14 +1,15 @@
 package com.example.geolocalisation;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import android.os.Bundle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,81 +21,56 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListingProduit extends AppCompatActivity {
 
-    //private String nom;
-    //private int quantite;
-    //private int photo;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String products = null;
-
-
-
-        try {
-            String url = "http://192.168.225.198:3000/produits/";
-            products = APIConnection.get(url);
-            Toast toast = Toast.makeText(ListingProduit.this, products, Toast.LENGTH_LONG);
-            toast.show();
-            setContentView(R.layout.activity_listing_produit);
-            Log.e("aaaaaaa", products);
-        } catch (IOException e) {
-            Log.e("OEEEEEEEEEE C'EST LA D", e.toString());
-        }
-
-        //String line;
-        //URL url;
+        setContentView(R.layout.activity_listing_produit);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("Chaussure",R.drawable.chaussure,"3"));
-        items.add(new Item("Pentalon", R.drawable.chaussure, "2"));
+        List<Item> items = new ArrayList<Item>();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items));
-
-
-
-       /* try {
-            url = new URL("http://192.168.43.2/all4sport/API/produitStocke.php");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            line = rd.readLine();
-            JSONObject jsonObject = new JSONObject(line);
-
-            JSONArray array = new JSONArray(jsonObject.getString("stock"));
-
-            /*for (int i = 0; i < array.length(); i++) {
-                // On récupère un objet JSON du tableau
-                JSONObject obj = new JSONObject(array.getString(i));
-                // On fait le lien Personne - Objet JSON
-                Item item = new Item(nom, quantite, photo);
-                item.setNom(obj.getString("nom"));
-                item.setQuantite(obj.getInt("quantite"));
-                item.setPhoto(obj.getInt("photo"));
-                RecyclerView recyclerView = findViewById(R.id.recyclerview);
-                List<Item> items = new ArrayList<Item>();
-                items.add(new Item("Chaussure",R.drawable.chaussure,3));
-                // <uses-permission
-                //android:name="android.permission.ACCESS_FINE_LOCATION"
-                //tools:ignore="CoarseFineLocation" />
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items));
-             }
+        String url;
+        String line = "";
+        try {
+            String token = null;
+            url = "http://192.168.56.1:3000/produits";
+            token  = APIConnection.get(url);
+            Toast toast = Toast.makeText(ListingProduit.this, token, Toast.LENGTH_LONG);
+            toast.show();
+            // HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            //BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            //line = rd.readLine();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        //Connexion BDD
+
+        JSONArray produits = new JSONArray();
+
+        try {
+            produits = new JSONArray(line);
+            for (int i = 0; i< produits.length(); i++) {
+                String nom_produit = produits.getJSONObject(i).getString("nom");
+                String quantite = produits.getJSONObject(i).getString("quantite");
+                int photo = produits.getJSONObject(i).getInt("photo");
+
+                items.add(new Item(nom_produit, photo, quantite));
+
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
-        } */
+        }
 
-
-    }
-}
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new MyAdapter(getApplicationContext(), items));
+    }}
