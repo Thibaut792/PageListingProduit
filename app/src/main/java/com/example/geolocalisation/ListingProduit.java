@@ -3,6 +3,7 @@ package com.example.geolocalisation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -36,38 +37,37 @@ public class ListingProduit extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         List<Item> items = new ArrayList<Item>();
 
-        String url;
+        URL url;
         String line = "";
         try {
-            String token = null;
-            url = "http://192.168.56.1:3000/produits";
-            token  = APIConnection.get(url);
-            Toast toast = Toast.makeText(ListingProduit.this, token, Toast.LENGTH_LONG);
-            toast.show();
-            // HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            //BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            //line = rd.readLine();
+            //String token = null;
+            url = new URL ("http://192.168.56.1:3000/produits");
+            //token  = APIConnection.get(url);
+            //Toast toast = Toast.makeText(ListingProduit.this, token, Toast.LENGTH_LONG);
+            //toast.show();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            line = rd.readLine();
+            JSONArray produits = new JSONArray();
+
+            try {
+                produits = new JSONArray(line);
+                for (int i = 0; i< produits.length(); i++) {
+                    //Log.e("aaaa", produits.getJSONObject(i).getString("nom"));
+                    String nom_produit = produits.getJSONObject(i).getString("pr_reference");
+                    String quantite = produits.getJSONObject(i).getString("pr_description"); //remplacer par le champs nb_produit
+                    int photo = produits.getJSONObject(i).getInt("pr_cout_unitaire_HT"); //remplacer par le champs ph_img
+
+                    items.add(new Item(nom_produit, photo, quantite));
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //Connexion BDD
-
-        JSONArray produits = new JSONArray();
-
-        try {
-            produits = new JSONArray(line);
-            for (int i = 0; i< produits.length(); i++) {
-                String nom_produit = produits.getJSONObject(i).getString("nom");
-                String quantite = produits.getJSONObject(i).getString("quantite");
-                int photo = produits.getJSONObject(i).getInt("photo");
-
-                items.add(new Item(nom_produit, photo, quantite));
-
-            }
-
-        } catch (JSONException e) {
             e.printStackTrace();
         }
 
